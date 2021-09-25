@@ -2,18 +2,20 @@ const router = require('express').Router();
 const User = require('../models/user')
 const { verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../middleware/verifyToken');
 
-//updating
+//*updating
 router.put('/:id', verifyTokenAndAuthorization, async(req, res) => {
     if (req.body.password) {
         req.body.password = CryptoJS.AES.encrypt(req.body.password, process.env.PASS_KEY).toString();
     }
     try {
-        const updateUser = await User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
+        const updateUser = await User.findByIdAndUpdate(
+            req.params.id, { $set: req.body }, { new: true }
+        );
         res.status(200).json(updateUser);
     } catch (err) { res.status(500).json(err); }
 })
 
-//delete
+//*delete
 router.delete('/:id', verifyTokenAndAuthorization, async(req, res, next) => {
     try {
         await User.findByIdAndDelete(req.params.id)
@@ -22,7 +24,7 @@ router.delete('/:id', verifyTokenAndAuthorization, async(req, res, next) => {
 })
 
 
-//get user by admin
+//*find user by admin
 router.get('/find/:id', verifyTokenAndAdmin, async(req, res, next) => {
     try {
         const user = await User.findById(req.params.id)
@@ -32,7 +34,18 @@ router.get('/find/:id', verifyTokenAndAdmin, async(req, res, next) => {
     } catch (err) { res.status(500).json(err); }
 })
 
-//find all by admin
+//*find all users by admin
+router.get("/", verifyTokenAndAdmin, async(req, res, next) => {
+    const query = req.query.new;
+    try {
+        const users = query ?
+            await User.find().sort({ _id: -1 }).limit(5) :
+            await User.find();
+        res.status(200).json(users);
+    } catch (err) { res.status(500).json(err); }
+})
+
+//*find by admin
 router.get('/', verifyTokenAndAdmin, async(req, res, next) => {
     try {
         const users = await User.find()

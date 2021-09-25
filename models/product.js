@@ -1,7 +1,7 @@
-const mongo = require('mongoose');
+const mongoose = require('mongoose');
 
-const ProductSchema = new mongo.Schema({
-    title = {
+const ProductSchema = new mongoose.Schema({
+    title: {
         type: String,
         required: true,
         unique: true,
@@ -10,23 +10,23 @@ const ProductSchema = new mongo.Schema({
         type: String,
         required: true,
     },
-    img = {
+    img: {
         type: String,
         required: true,
     },
-    category = {
+    category: {
         type: Array,
         required: true
     },
-    size = {
+    size: {
         type: String || Number,
         required: true
     },
-    color = {
+    color: {
         type: String,
         required: true
     },
-    price = {
+    price: {
         type: Number,
         required: true
     }

@@ -1,22 +1,22 @@
-const mongo = require('mongoose');
+const mongoose = require('mongoose');
 
-const OrderSchema = new mongo.Schema([{
-    productId = {
+const OrderSchema = new mongoose.Schema([{
+    productId: {
         type: String,
     },
-    quantity = {
+    quantity: {
         type: Number,
         default: 1
     },
-    amount = {
+    amount: {
         type: Number,
         required: true,
     },
-    address = {
+    address: {
         type: Object,
         required: true,
     },
-    status = {
+    status: {
         type: String,
         default: "pending"
     }

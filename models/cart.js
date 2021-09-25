@@ -1,10 +1,10 @@
-const mongo = require('mongoose');
+const mongoose = require('mongoose');
 
-const CartSchema = new mongo.Schema([{
-    productId = {
+const CartSchema = new mongoose.Schema([{
+    productId: {
         type: String,
     },
-    quantity = {
+    quantity: {
         type: Number,
         default: 1
     }
